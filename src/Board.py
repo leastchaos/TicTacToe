@@ -4,7 +4,7 @@ import random
 
 
 class TicTacToe():
-    def __init__(self, board_size=3, win=3, first_player=1):
+    def __init__(self, board_size=3, win=3, first_player=1,show_win=True):
         self.board = [[0 for i in range(board_size)]
                       for j in range(board_size)]
         self.board_size = int(board_size)
@@ -12,6 +12,7 @@ class TicTacToe():
         self.player_turn = first_player
         self.game_end = False
         self.winner = None
+        self.show_win=show_win
 
     def place_turn(self, player, x, y):
         if self.board[y][x] != 0:
@@ -29,10 +30,10 @@ class TicTacToe():
     def check_game_state(self):
         self.game_end = True
         if(self.check_victory() != 0):
-            self.print_board()
+            if self.show_win: self.print_board()
             return
         if (self.check_draw()):
-            self.print_board()
+            if self.show_win: self.print_board()
             return
         self.game_end = False
 
@@ -43,11 +44,11 @@ class TicTacToe():
         diagonal_2 = np.trace(np.fliplr(self.board))
         total = [*col, *row, diagonal_1, diagonal_2]
         if self.board_size in total:
-            print('player 1 win')
+            if self.show_win: print('player 1 win')
             self.winner = 1
             return 1
         if -self.board_size in total:
-            print('player 2 win')
+            if self.show_win: print('player 2 win')
             self.winner = -1
             return -1
         return 0
